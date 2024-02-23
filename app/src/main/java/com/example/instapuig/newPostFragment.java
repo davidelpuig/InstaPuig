@@ -88,9 +88,11 @@ public class newPostFragment extends Fragment {
         view.findViewById(R.id.video_galeria).setOnClickListener(v -> seleccionarVideo());
         view.findViewById(R.id.audio_galeria).setOnClickListener(v -> seleccionarAudio());
         appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
-            this.mediaUri = media.uri;
-            this.mediaTipo = media.tipo;
-            Glide.with(this).load(media.uri).into((ImageView) view.findViewById(R.id.previsualizacion));
+            if(media != null) {
+                this.mediaUri = media.uri;
+                this.mediaTipo = media.tipo;
+                Glide.with(this).load(media.uri).into((ImageView) view.findViewById(R.id.previsualizacion));
+            }
         });
     }
 

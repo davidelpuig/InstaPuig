@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -82,8 +83,10 @@ public class profileFragment extends Fragment {
 
         appViewModel.mediaSeleccionado.observe(getViewLifecycleOwner(), media -> {
 
-            Glide.with(this).load(media.uri).into((ImageView) view.findViewById(R.id.photoImageView));
-            mediaUri = media.uri;
+            if(media != null) {
+                Glide.with(this).load(media.uri).into((ImageView) view.findViewById(R.id.photoImageView));
+                mediaUri = media.uri;
+            }
         });
 
         confirmChangesButton.setOnClickListener(view1 -> {
@@ -97,7 +100,8 @@ public class profileFragment extends Fragment {
             else
             {
                 appViewModel.updateCurrentUserProfile(profile);
-                navController.navigate(R.id.homeFragment);
+                //navController.navigate(R.id.homeFragment);
+                Snackbar.make(requireView(), "Cambios guardados", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -113,7 +117,9 @@ public class profileFragment extends Fragment {
                         profile.photo = url.toString();
                         appViewModel.updateCurrentUserProfile(profile);
                         appViewModel.mediaSeleccionado.postValue(null);
-                        navController.navigate(R.id.homeFragment);
+                        //navController.navigate(R.id.homeFragment);
+                        Snackbar.make(requireView(), "Cambios guardados", Snackbar.LENGTH_LONG).show();
+                        mediaUri = null;
                      });
     }
 

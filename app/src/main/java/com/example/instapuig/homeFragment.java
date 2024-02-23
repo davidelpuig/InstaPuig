@@ -211,6 +211,32 @@ public class homeFragment extends Fragment {
                 }
             });
 
+            // Chequea si hay comentarios para mostrar o ocultar
+            Query query2 = FirebaseFirestore.getInstance().collection("posts").document(postKey).collection("comments");
+            AggregateQuery countQuery = query2.count();
+            countQuery.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        // Count fetched successfully
+                        AggregateQuerySnapshot snapshot = task.getResult();
+                        if (snapshot.getCount() == 0)
+                        {
+                            commentRecyclerView.setVisibility(View.GONE);
+                            holder.showAllCommentstextView.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            commentRecyclerView.setVisibility(View.GONE);
+                            holder.showAllCommentstextView.setVisibility(View.VISIBLE);
+                        }
+                        //Log.d(TAG, "Count: " + snapshot.getCount());
+                    } else {
+                        //Log.d(TAG, "Count failed: ", task.getException());
+                    }
+                }
+            });
+
             // Share button
             holder.shareImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
