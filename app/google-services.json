@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "626839345337",
+    "project_id": "instapuig2022",
+    "storage_bucket": "instapuig2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626839345337:android:5677524303600c24fc6368",
+        "android_client_info": {
+          "package_name": "com.example.instapuig"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626839345337-4nt1c4tb14gu04ipu4gvpeocbj65tt9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instapuig",
+            "certificate_hash": "bb64a7cfadc6085682a55c208e1db6a572338234"
+          }
+        },
+        {
+          "client_id": "626839345337-927qaoubj1jqajrqan102sirv1lriho2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVDaNC66KJNLa4wiYwDgEhGYp_Eue1WY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626839345337-927qaoubj1jqajrqan102sirv1lriho2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
