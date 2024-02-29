@@ -104,6 +104,21 @@ public class homeFragment extends Fragment {
             holder.authorTextView.setText(post.author);
             holder.contentTextView.setText(post.content);
 
+            // Recycler view de hashtags
+            RecyclerView hashtagRecyclerView = holder.hashtagsRecyclerView;
+
+            Query queryTags = FirebaseFirestore.getInstance().collection("posts").document(post.postId).collection("hashtags").limit(50);
+
+            FirestoreRecyclerOptions<Hashtag> optionsTags = new FirestoreRecyclerOptions.Builder<Hashtag>()
+                    .setQuery(queryTags, Hashtag.class)
+                    .setLifecycleOwner(fragment)
+                    .build();
+
+            HashtagsAdapter adapterTags = new HashtagsAdapter(optionsTags);
+            adapterTags.postKey = post.postId;
+            hashtagRecyclerView.setAdapter(adapterTags);
+
+
             // Original author on shared posts
             if(post.originalAuthor != null)
             {
@@ -282,7 +297,7 @@ public class homeFragment extends Fragment {
             ImageView authorPhotoImageView, originalAuthorPhotoImageView, likeImageView, mediaImageView, deleteImageView, shareImageView;
             TextView authorTextView, originalAuthorTextView, contentTextView, numLikesTextView, timeTextView, showAllCommentstextView;
             TextView commentTextView;
-            RecyclerView commentsRecyclerView;
+            RecyclerView commentsRecyclerView, hashtagsRecyclerView;
 
             LinearLayout originalAuthorInfo;
 
@@ -297,6 +312,7 @@ public class homeFragment extends Fragment {
                 timeTextView = itemView.findViewById(R.id.timeTextView);
                 authorTextView = itemView.findViewById(R.id.authorTextView);
                 contentTextView = itemView.findViewById(R.id.contentTextView);
+                hashtagsRecyclerView = itemView.findViewById(R.id.hashtagsRecyclerView);
                 likeImageView = itemView.findViewById(R.id.likeImageView);
                 numLikesTextView = itemView.findViewById(R.id.numLikesTextView);
                 mediaImageView = itemView.findViewById(R.id.mediaImage);
@@ -402,6 +418,33 @@ public class homeFragment extends Fragment {
                 numLikesTextView = itemView.findViewById(R.id.numLikesTextView);
                 //mediaImageView = itemView.findViewById(R.id.mediaImage);
                 deleteImageView = itemView.findViewById(R.id.deleteImageView);
+            }
+        }
+    }
+
+    class HashtagsAdapter extends FirestoreRecyclerAdapter<Hashtag, HashtagsAdapter.HashtagViewHolder> {
+        public HashtagsAdapter(@NonNull FirestoreRecyclerOptions<Hashtag> options) {super(options);}
+
+        @NonNull
+        @Override
+        public HashtagsAdapter.HashtagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new HashtagsAdapter.HashtagViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_hashtag, parent, false));
+        }
+
+        @Override
+        protected void onBindViewHolder(@NonNull HashtagsAdapter.HashtagViewHolder holder, int position, @NonNull final Hashtag hashtag) {
+
+            holder.hashtagTextView.setText("#"+hashtag.hashtag);
+        }
+
+        public String postKey;
+
+        class HashtagViewHolder extends RecyclerView.ViewHolder {
+              TextView hashtagTextView;
+
+            HashtagViewHolder(@NonNull View itemView) {
+                super(itemView);
+                hashtagTextView = itemView.findViewById(R.id.hashtagTextView);
             }
         }
     }

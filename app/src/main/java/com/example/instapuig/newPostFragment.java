@@ -35,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -126,6 +127,14 @@ public class newPostFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         documentReference.update("postId", documentReference.getId());
+
+                        // Add hashtags to created document
+                        ArrayList<String> tags = post.processHashtags();
+                        for(int i = 0; i < tags.size(); i++)
+                        {
+                            documentReference.collection("hashtags").add( new Hashtag(tags.get(i)));
+                        }
+
                         navController.popBackStack();
                         appViewModel.setMediaSeleccionado( null, null);
                     }
