@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 public class newPostFragment extends Fragment {
@@ -129,7 +130,7 @@ public class newPostFragment extends Fragment {
                         documentReference.update("postId", documentReference.getId());
 
                         // Add hashtags to created document
-                        ArrayList<String> tags = post.processHashtags();
+                        List<String> tags = post.hashtags;
                         for(int i = 0; i < tags.size(); i++)
                         {
                             documentReference.collection("hashtags").add( new Hashtag(tags.get(i)));

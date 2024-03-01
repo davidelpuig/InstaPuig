@@ -58,6 +58,8 @@ public class homeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
+        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
 
         view.findViewById(R.id.gotoNewPostFragmentButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +70,7 @@ public class homeFragment extends Fragment {
 
         RecyclerView postsRecyclerView = view.findViewById(R.id.postsRecyclerView);
 
-        Query query = FirebaseFirestore.getInstance().collection("posts").orderBy("time", Query.Direction.DESCENDING).limit(50);
+        Query query = getWallPostsQuery();
 
         FirestoreRecyclerOptions<Post> options = new FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(query, Post.class)
@@ -79,11 +81,14 @@ public class homeFragment extends Fragment {
         adapter.setFragment(this);
         postsRecyclerView.setAdapter(adapter);
 
-        appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
-
         appViewModel.currentUserProfile.observe(getViewLifecycleOwner(), profile -> {
             userProfile = profile;
         });
+    }
+
+    Query getWallPostsQuery()
+    {
+        return FirebaseFirestore.getInstance().collection("posts").orderBy("time", Query.Direction.DESCENDING).limit(50);
     }
 
     class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.PostViewHolder> {
@@ -435,6 +440,10 @@ public class homeFragment extends Fragment {
         protected void onBindViewHolder(@NonNull HashtagsAdapter.HashtagViewHolder holder, int position, @NonNull final Hashtag hashtag) {
 
             holder.hashtagTextView.setText("#"+hashtag.hashtag);
+            holder.itemView.setOnClickListener(view -> {
+                appViewModel.setHashtagForSearch(hashtag);
+                navController.navigate(R.id.hashtagSearchFragment);
+            });
         }
 
         public String postKey;

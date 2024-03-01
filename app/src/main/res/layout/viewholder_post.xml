@@ -73,9 +73,10 @@
                 android:text="Contenido"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/hashtagsRecyclerView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             <ImageView
                 android:id="@+id/mediaImage"
                 android:layout_marginTop="10dp"

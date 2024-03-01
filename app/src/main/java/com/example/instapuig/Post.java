@@ -2,6 +2,7 @@ package com.example.instapuig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Post {
@@ -15,7 +16,7 @@ public class Post {
     public String mediaUrl;
     public String mediaType;
     public Map<String, Boolean> likes = new HashMap<>();
-    //public Map<String, Boolean> hastags = new HashMap<>();
+    public List<String> hashtags = new ArrayList<>();
 
     public long time;
 
@@ -32,12 +33,14 @@ public class Post {
         this.mediaType = mediaType;
         this.originalAuthor = null;
         this.originalAuthorPhotoUrl = null;
+
+        processHashtags();
     }
 
-    ArrayList<String> processHashtags()
+    void processHashtags()
     {
         int pos = 0;
-        ArrayList<String> hashtags = new ArrayList<>();
+        hashtags = new ArrayList<>();
         hashtags.clear();
         while(pos < content.length())
         {
@@ -51,10 +54,11 @@ public class Post {
                     pos++;
                 }
                 hashtags.add(sb.toString());
+
+
             }
             pos++;
         }
 
-        return hashtags;
     }
 }

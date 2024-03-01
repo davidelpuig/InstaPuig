@@ -17,6 +17,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AppViewModel extends AndroidViewModel {
+
+    Hashtag hashtagForSearch;
+
     public static class Media {
         public Uri uri;
         public String tipo;
@@ -83,6 +86,16 @@ public class AppViewModel extends AndroidViewModel {
                         currentUserProfile.postValue(profile);
                     }
                 });
+    }
+
+    public void setHashtagForSearch(Hashtag hashtag)
+    {
+        hashtagForSearch = hashtag;
+    }
+
+    public Hashtag getHashtagForSearch()
+    {
+        return hashtagForSearch;
     }
 
 }
